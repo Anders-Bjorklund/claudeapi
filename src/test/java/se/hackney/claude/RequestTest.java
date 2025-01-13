@@ -1,4 +1,4 @@
-package se.hackney.anthropic;
+package se.hackney.claude;
 
 import java.io.File;
 import java.io.IOException;
