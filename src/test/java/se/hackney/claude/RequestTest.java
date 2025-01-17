@@ -9,31 +9,34 @@ import org.junit.Test;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import se.hackney.claude.request.Body;
+import se.hackney.claude.request.Content;
+import se.hackney.claude.request.ImageContent;
+import se.hackney.claude.request.Message;
+import se.hackney.claude.request.Model;
+import se.hackney.claude.request.Role;
+import se.hackney.claude.request.TextContent;
+
 public class RequestTest {
 
     @Test
     public void requestTest() {
 
-        Request request = Request.builder().model(Model.CLAUDE_3_5_SONNET.getAnthropicId()).maxTokens(8192).build();
+        Body request = Body.builder().model(Model.CLAUDE_3_5_SONNET.getAnthropicId()).maxTokens(8192).build();
 
-        try {
-            Content[] content = {
-                    TextContent.builder().text("<FORM>").build(),
-                    ImageContent.builder().imageFile(new File("src\\test\\resources\\African_penguin,_Cape_Town_(_1050598).jpg")).build(),
-                    TextContent.builder().text("</FORM>").build()
-            };
+        Content[] content = {
+                TextContent.builder().text("<FORM>").build(),
+                ImageContent.builder()
+                        .imageFile(new File("src\\test\\resources\\African_penguin.jpg")).build(),
+                TextContent.builder().text("</FORM>").build()
+        };
 
-            Message message = Message.builder().role("user").content(Arrays.asList(content)).build();
-            request.setMessages(Arrays.asList(new Message[]{message}));
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Message message = Message.builder().role(Role.USER.toString()).content(Arrays.asList(content)).build();
+        request.setMessages(Arrays.asList(new Message[] { message }));
 
         try {
             System.out.println(new ObjectMapper().writeValueAsString(request));
         } catch (JsonProcessingException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         // Message message = Message.builder().

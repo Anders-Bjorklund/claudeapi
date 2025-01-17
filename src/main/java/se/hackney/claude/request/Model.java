@@ -1,4 +1,4 @@
-package se.hackney.claude;
+package se.hackney.claude.request;
 
 public enum Model {
     // Claude 3.5 models

@@ -1,4 +1,4 @@
-package se.hackney.claude;
+package se.hackney.claude.request;
 
 import lombok.Builder;
 import lombok.Data;

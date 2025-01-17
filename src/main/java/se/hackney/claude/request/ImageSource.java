@@ -1,15 +1,19 @@
-package se.hackney.claude;
+package se.hackney.claude.request;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Base64;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Data;
 
 @Data
 public class ImageSource {
     private String type;
+
+    @JsonProperty("media_type")
     private String mediaType;
     private String data;
 
