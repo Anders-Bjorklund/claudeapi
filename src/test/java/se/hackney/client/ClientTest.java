@@ -36,7 +36,7 @@ public class ClientTest {
                 .build();
 
         se.hackney.claude.response.Body response = Client.call(apiKey, requestBody);
-
+        System.out.println(response.getText());
         assertTrue(response.getText().indexOf("pingvin") != -1);
 
     }

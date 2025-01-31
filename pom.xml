@@ -7,7 +7,7 @@
 
   <groupId>se.hackney.claudeapi</groupId>
   <artifactId>claude</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0.0</version>
 
   <name>Claude API</name>
 

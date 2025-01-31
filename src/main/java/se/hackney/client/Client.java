@@ -1,6 +1,7 @@
 package se.hackney.client;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.util.Converter;
 
@@ -11,16 +12,22 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import se.hackney.claude.request.Body;
 
+import java.util.concurrent.TimeUnit;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Client {
     private static final Logger LOGGER = LoggerFactory.getLogger(Client.class);
-    private static final ObjectMapper mapper = new ObjectMapper();
+    private static final ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
     public static se.hackney.claude.response.Body call(String apiKey, Body requestBody) {
 
-        OkHttpClient client = new OkHttpClient();
+        OkHttpClient client = new OkHttpClient.Builder()
+        .connectTimeout(30, TimeUnit.SECONDS)    // tid för att etablera anslutning
+        .writeTimeout(30, TimeUnit.SECONDS)      // tid för att skriva data
+        .readTimeout(60, TimeUnit.SECONDS)       // tid för att läsa data
+        .build();   
 
         MediaType JSON_MIME = MediaType.get("application/json; charset=utf-8");
         String requestJson = null;
