@@ -3,7 +3,6 @@ package se.hackney.client;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.util.Converter;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -46,7 +45,12 @@ public class Client {
 
         String responseJson = null;
         try (Response response = client.newCall(request).execute()) {
+
+            if( !response.isSuccessful()) {
+                System.out.println("FELKOD: " + response.code());
+            }
             responseJson = response.body().string();
+            LOGGER.info(responseJson);
 
             se.hackney.claude.response.Body responseMessage = mapper.readValue(responseJson,
                     se.hackney.claude.response.Body.class);
