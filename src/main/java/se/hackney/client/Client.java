@@ -18,15 +18,16 @@ import org.slf4j.LoggerFactory;
 
 public class Client {
     private static final Logger LOGGER = LoggerFactory.getLogger(Client.class);
-    private static final ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    private static final ObjectMapper mapper = new ObjectMapper()
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
     public static se.hackney.claude.response.Body call(String apiKey, Body requestBody) {
 
         OkHttpClient client = new OkHttpClient.Builder()
-        .connectTimeout(30, TimeUnit.SECONDS)    // tid för att etablera anslutning
-        .writeTimeout(30, TimeUnit.SECONDS)      // tid för att skriva data
-        .readTimeout(60, TimeUnit.SECONDS)       // tid för att läsa data
-        .build();   
+                .connectTimeout(30, TimeUnit.SECONDS) // tid för att etablera anslutning
+                .writeTimeout(30, TimeUnit.SECONDS) // tid för att skriva data
+                .readTimeout(60, TimeUnit.SECONDS) // tid för att läsa data
+                .build();
 
         MediaType JSON_MIME = MediaType.get("application/json; charset=utf-8");
         String requestJson = null;
@@ -46,11 +47,15 @@ public class Client {
         String responseJson = null;
         try (Response response = client.newCall(request).execute()) {
 
-            if( !response.isSuccessful()) {
-                System.out.println("FELKOD: " + response.code());
+            if (!response.isSuccessful()) {
+                if (response.code() == 529) {
+                    throw new AnthropicServiceIsOverloadedException();
+                }
+
+                System.out.println("Unknown exception HTTP code: " + response.code());
             }
             responseJson = response.body().string();
-            LOGGER.info(responseJson);
+            LOGGER.debug(responseJson);
 
             se.hackney.claude.response.Body responseMessage = mapper.readValue(responseJson,
                     se.hackney.claude.response.Body.class);
@@ -74,4 +79,7 @@ class NonDeserializableResponseBodyException extends RuntimeException {
     public NonDeserializableResponseBodyException(String message) {
         super(message);
     }
+}
+
+class AnthropicServiceIsOverloadedException extends RuntimeException {
 }
