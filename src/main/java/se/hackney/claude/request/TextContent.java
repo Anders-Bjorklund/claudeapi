@@ -8,6 +8,8 @@ import lombok.Data;
 public class TextContent extends Content {
     private String text;
 
+    public TextContent() {}
+    
     public TextContent(String text) {
         this.type = "text";
         this.text = text;

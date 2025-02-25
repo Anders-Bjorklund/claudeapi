@@ -12,4 +12,6 @@ import lombok.NoArgsConstructor;
 public class Content {
     private String type;
     private String text;
+    private Thinking thinking;
+    
 }

@@ -27,6 +27,14 @@ public class Body {
     private Usage usage;
 
     public String getText() {
-        return content.get(0).getText();
+
+        for (Content one : content) {
+
+            if (one.getType().equalsIgnoreCase("TEXT")) {
+                return one.getText();
+            }
+        }
+
+        return "";
     }
 }

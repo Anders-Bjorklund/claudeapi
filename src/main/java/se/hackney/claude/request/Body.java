@@ -18,8 +18,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Body {
 
     private String model;
-    private List<Message> messages;
+
+    @Builder.Default
+    private int temperature = 1;
 
     @JsonProperty("max_tokens")
     private int maxTokens;
+
+    @Builder.Default
+    private Thinking thinking = new Thinking();
+
+    private List<Message> messages;
 }

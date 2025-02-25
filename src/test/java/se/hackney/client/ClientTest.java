@@ -7,6 +7,9 @@ import java.util.List;
 
 import org.junit.Test;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import se.hackney.claude.request.Body;
 import se.hackney.claude.request.Content;
 import se.hackney.claude.request.ImageContent;
@@ -30,13 +33,20 @@ public class ClientTest {
         });
 
         Body requestBody = Body.builder()
-                .model(Model.CLAUDE_3_5_SONNET.getAnthropicId())
-                .maxTokens(8192)
+                .model(Model.CLAUDE_3_7_SONNET.getAnthropicId())
+                .maxTokens(64000)
                 .messages(messages)
                 .build();
 
+                try {
+                        System.out.println( "TRÄD:\n" + new ObjectMapper().writeValueAsString(requestBody));
+                } catch (JsonProcessingException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                }
         se.hackney.claude.response.Body response = Client.call(apiKey, requestBody);
-        System.out.println(response.getText());
+        
+        System.out.println(response.getContent().toString());
         assertTrue(response.getText().indexOf("pingvin") != -1);
 
     }

@@ -24,9 +24,9 @@ public class Client {
     public static se.hackney.claude.response.Body call(String apiKey, Body requestBody) {
 
         OkHttpClient client = new OkHttpClient.Builder()
-                .connectTimeout(30, TimeUnit.SECONDS) // tid för att etablera anslutning
-                .writeTimeout(30, TimeUnit.SECONDS) // tid för att skriva data
-                .readTimeout(60, TimeUnit.SECONDS) // tid för att läsa data
+                .connectTimeout(120, TimeUnit.SECONDS) // tid för att etablera anslutning
+                .writeTimeout(120, TimeUnit.SECONDS) // tid för att skriva data
+                .readTimeout(120, TimeUnit.SECONDS) // tid för att läsa data
                 .build();
 
         MediaType JSON_MIME = MediaType.get("application/json; charset=utf-8");
@@ -49,18 +49,21 @@ public class Client {
 
             if (!response.isSuccessful()) {
                 if (response.code() == 529) {
+                    System.out.println("Overloaded: " + response.code());
+                    LOGGER.info(response.body().string());
                     throw new AnthropicServiceIsOverloadedException();
+                } else {
+                    System.out.println("Unknown exception HTTP code: " + response.code());
                 }
-
-                System.out.println("Unknown exception HTTP code: " + response.code());
             }
+
             responseJson = response.body().string();
             LOGGER.debug(responseJson);
 
             se.hackney.claude.response.Body responseMessage = mapper.readValue(responseJson,
                     se.hackney.claude.response.Body.class);
             return responseMessage;
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
             throw new NonDeserializableResponseBodyException(responseJson);
         }
@@ -79,7 +82,4 @@ class NonDeserializableResponseBodyException extends RuntimeException {
     public NonDeserializableResponseBodyException(String message) {
         super(message);
     }
-}
-
-class AnthropicServiceIsOverloadedException extends RuntimeException {
 }

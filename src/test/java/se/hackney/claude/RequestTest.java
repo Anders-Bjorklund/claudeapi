@@ -22,7 +22,7 @@ public class RequestTest {
     @Test
     public void requestTest() {
 
-        Body request = Body.builder().model(Model.CLAUDE_3_5_SONNET.getAnthropicId()).maxTokens(8192).build();
+        Body request = Body.builder().model(Model.CLAUDE_3_7_SONNET.getAnthropicId()).maxTokens(64000).build();
 
         Content[] content = {
                 TextContent.builder().text("<FORM>").build(),
@@ -37,7 +37,7 @@ public class RequestTest {
         try {
             System.out.println(new ObjectMapper().writeValueAsString(request));
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            throw new RuntimeException("NoPenguinException");
         }
         // Message message = Message.builder().
     }

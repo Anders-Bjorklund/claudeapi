@@ -17,6 +17,8 @@ public class ImageSource {
     private String mediaType;
     private String data;
 
+    public ImageSource() {}
+
     public ImageSource(File imageFile) throws IOException {
         this.type = "base64";
         this.mediaType = determineMediaType(imageFile.getName());

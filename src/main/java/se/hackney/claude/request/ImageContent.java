@@ -10,6 +10,8 @@ import lombok.Data;
 public class ImageContent extends Content {
     private ImageSource source;
 
+    public ImageContent() {}
+
     public ImageContent(String imageFilePath) {
         this(getFile(imageFilePath));
     }

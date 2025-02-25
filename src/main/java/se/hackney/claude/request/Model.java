@@ -1,7 +1,14 @@
 package se.hackney.claude.request;
 
 public enum Model {
-    // Claude 3.5 models
+
+    CLAUDE_3_7_SONNET(
+"claude-3-7-sonnet-20250219",
+        "claude-3-7-sonnet-latest",
+        "anthropic.claude-3-7-sonnet-20250219-v1:0",
+        "claude-3-7-sonnet@20250219"
+    ),
+
     CLAUDE_3_5_SONNET(
         "claude-3-5-sonnet-20241022",
         "claude-3-5-sonnet-latest",
