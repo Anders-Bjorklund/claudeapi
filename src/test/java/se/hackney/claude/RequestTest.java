@@ -9,7 +9,7 @@ import org.junit.Test;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import se.hackney.claude.request.Body;
+import se.hackney.claude.request.CleverBody;
 import se.hackney.claude.request.Content;
 import se.hackney.claude.request.ImageContent;
 import se.hackney.claude.request.Message;
@@ -22,7 +22,7 @@ public class RequestTest {
     @Test
     public void requestTest() {
 
-        Body request = Body.builder().model(Model.CLAUDE_3_7_SONNET.getAnthropicId()).maxTokens(64000).build();
+        CleverBody request = CleverBody.builder().model(Model.CLAUDE_3_7_SONNET.getAnthropicId()).maxTokens(64000).build();
 
         Content[] content = {
                 TextContent.builder().text("<FORM>").build(),

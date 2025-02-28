@@ -10,6 +10,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import se.hackney.claude.request.Body;
+import se.hackney.claude.request.CleverBody;
 
 import java.util.concurrent.TimeUnit;
 
@@ -24,9 +25,9 @@ public class Client {
     public static se.hackney.claude.response.Body call(String apiKey, Body requestBody) {
 
         OkHttpClient client = new OkHttpClient.Builder()
-                .connectTimeout(120, TimeUnit.SECONDS) // tid för att etablera anslutning
-                .writeTimeout(120, TimeUnit.SECONDS) // tid för att skriva data
-                .readTimeout(120, TimeUnit.SECONDS) // tid för att läsa data
+                .connectTimeout(60, TimeUnit.SECONDS) // tid för att etablera anslutning
+                .writeTimeout(60, TimeUnit.SECONDS) // tid för att skriva data
+                .readTimeout(300, TimeUnit.SECONDS) // tid för att läsa data
                 .build();
 
         MediaType JSON_MIME = MediaType.get("application/json; charset=utf-8");

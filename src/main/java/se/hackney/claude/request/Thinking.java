@@ -12,10 +12,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Thinking {
-
-    public Thinking( int budget){
-        this.budgetTokens = budget;
-    }
     
     @Builder.Default
     private String type = "enabled";

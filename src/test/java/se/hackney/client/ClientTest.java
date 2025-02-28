@@ -10,7 +10,8 @@ import org.junit.Test;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import se.hackney.claude.request.Body;
+import se.hackney.claude.request.CleverBody;
+import se.hackney.claude.request.FastBody;
 import se.hackney.claude.request.Content;
 import se.hackney.claude.request.ImageContent;
 import se.hackney.claude.request.Message;
@@ -32,22 +33,29 @@ public class ClientTest {
                                 })).build()
                 });
 
-                Body requestBody = Body.builder()
+                FastBody fastRequestBody = FastBody.builder()
                                 .model(Model.CLAUDE_3_7_SONNET.getAnthropicId())
                                 .maxTokens(64000)
                                 .messages(messages)
                                 .build();
 
-                try {
-                        System.out.println("TRÄD:\n" + new ObjectMapper().writeValueAsString(requestBody));
-                } catch (JsonProcessingException e) {
-                        e.printStackTrace();
-                }
-                
-                se.hackney.claude.response.Body response = Client.call(apiKey, requestBody);
+                se.hackney.claude.response.Body response = Client.call(apiKey, fastRequestBody);
 
                 System.out.println(response.getContent().toString());
                 assertTrue(response.getText().indexOf("pingvin") != -1);
+
+                CleverBody cleverRequestBody = CleverBody.builder()
+                                .model(Model.CLAUDE_3_7_SONNET.getAnthropicId())
+                                .maxTokens(64000)
+                                .messages(messages)
+                                .build();
+
+
+                response = Client.call(apiKey, cleverRequestBody);
+
+                System.out.println(response.getContent().toString());
+                assertTrue(response.getText().indexOf("pingvin") != -1);
+
 
         }
 }
