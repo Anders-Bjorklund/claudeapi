@@ -1,9 +1,7 @@
 package se.hackney.claude.request;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.List;
 
@@ -12,8 +10,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Data
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Body {
 
@@ -29,4 +25,9 @@ public class Body {
     private Thinking thinking = new Thinking();
 
     private List<Message> messages;
+
+    public Body setBudget(int budget) {
+        this.thinking = new Thinking(budget);
+        return this;
+    }
 }

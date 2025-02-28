@@ -7,14 +7,20 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Thinking {
+
+    public Thinking( int budget){
+        this.budgetTokens = budget;
+    }
     
+    @Builder.Default
     private String type = "enabled";
 
     @JsonProperty("budget_tokens")
-    private int budgetTokens = 15000;
+    @Builder.Default
+    private int budgetTokens = 5000;
 }
