@@ -2,7 +2,9 @@ package se.hackney.claude.request;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Base64;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -17,12 +19,19 @@ public class ImageSource {
     private String mediaType;
     private String data;
 
-    public ImageSource() {}
+    public ImageSource() {
+    }
 
-    public ImageSource(File imageFile) throws IOException {
+    public ImageSource(String imageFile) throws IOException {
         this.type = "base64";
-        this.mediaType = determineMediaType(imageFile.getName());
+        this.mediaType = determineMediaType(imageFile);
         this.data = encodeFileToBase64(imageFile);
+    }
+
+    public ImageSource(String imageFile, byte[] fileContent) {
+        this.type = "base64";
+        this.mediaType = determineMediaType(imageFile);
+        this.data = Base64.getEncoder().encodeToString(fileContent);
     }
 
     private String determineMediaType(String fileName) {
@@ -35,8 +44,8 @@ public class ImageSource {
         };
     }
 
-    private String encodeFileToBase64(File file) throws IOException {
-        byte[] fileContent = Files.readAllBytes(file.toPath());
+    private String encodeFileToBase64(String filePath) throws IOException {
+        byte[] fileContent = Files.readAllBytes(Path.of(filePath));
         return Base64.getEncoder().encodeToString(fileContent);
     }
 }

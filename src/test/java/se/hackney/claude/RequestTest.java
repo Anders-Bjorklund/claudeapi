@@ -27,7 +27,7 @@ public class RequestTest {
         Content[] content = {
                 TextContent.builder().text("<FORM>").build(),
                 ImageContent.builder()
-                        .imageFile(new File("src\\test\\resources\\African_penguin.jpg")).build(),
+                        .imageFile("src/test/resources/African_penguin.jpg").build(),
                 TextContent.builder().text("</FORM>").build()
         };
 

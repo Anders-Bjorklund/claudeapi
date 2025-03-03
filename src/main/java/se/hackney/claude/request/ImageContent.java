@@ -12,27 +12,24 @@ public class ImageContent extends Content {
 
     public ImageContent() {}
 
-    public ImageContent(String imageFilePath) {
-        this(getFile(imageFilePath));
-    }
-
     @Builder
-    public ImageContent(File imageFile) {
+    public ImageContent(String imageFile) {
         this.type = "image";
         try {
             this.source = new ImageSource(imageFile);
         } catch (IOException e) {
             if( imageFile != null ) {
-                throw new UnableToAccessImageContentException(imageFile.getAbsolutePath(), e);
+                throw new UnableToAccessImageContentException(imageFile, e);
             } else {
                 throw new UnableToAccessImageContentException(e);
             }
         }
     }
 
-    private static File getFile(String imageFilePath) {
-        return new File(imageFilePath);
+    public ImageContent( String imageFile, byte[] fileContent) {
+        this.source = new ImageSource(imageFile, fileContent);
     }
+
 }
 
 class UnableToAccessImageContentException extends RuntimeException {

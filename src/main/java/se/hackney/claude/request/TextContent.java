@@ -1,5 +1,9 @@
 package se.hackney.claude.request;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 import lombok.Builder;
 import lombok.Data;
 
@@ -13,5 +17,13 @@ public class TextContent extends Content {
     public TextContent(String text) {
         this.type = "text";
         this.text = text;
+    }
+
+    public TextContent( Path filePath ) {
+        try {
+            this.text = Files.readString(filePath);
+        } catch (IOException e) {
+            throw new RuntimeException("NuSuchFileException", e);
+        }
     }
 }
